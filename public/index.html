@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiniSocial - Premium Social Media Platform</title>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       AUTHENTICATION VIEWS (OVERLAY CONTAINER)
+       ========================================================================== -->
+  <div id="auth-container" class="auth-wrapper">
+    
+    <!-- A. Login Card -->
+    <div id="login-card" class="auth-card glass-panel">
+      <div class="auth-header-container">
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-share-nodes"></i></span>
+          <span class="logo-text">MiniSocial</span>
+        </div>
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Log in to reconnect with your feed.</p>
+      </div>
+      
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Username or Email</label>
+          <input class="form-input" type="text" id="login-username" placeholder="e.g. admin or admin@social.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <input class="form-input" type="password" id="login-password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Log In</button>
+      </form>
+      
+      <div class="auth-footer">
+        <p><a href="#" id="go-forgot">Forgot Password?</a></p>
+        <p style="margin-top: 10px;">Don't have an account? <a href="#" id="go-register">Sign Up</a></p>
+      </div>
+    </div>
+
+    <!-- B. Register Card -->
+    <div id="register-card" class="auth-card glass-panel" style="display: none;">
+      <div class="auth-header-container">
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-share-nodes"></i></span>
+          <span class="logo-text">MiniSocial</span>
+        </div>
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Join us and build your profile.</p>
+      </div>
+      
+      <form id="register-form" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="reg-username">Username</label>
+          <input class="form-input" type="text" id="reg-username" placeholder="Choose a username" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Password</label>
+          <input class="form-input" type="password" id="reg-password" placeholder="Min. 8 characters" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-tags">Interest Tags (comma separated)</label>
+          <input class="form-input" type="text" id="reg-tags" placeholder="e.g. tech, travel, food">
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+      
+      <div class="auth-footer">
+        <p>Already have an account? <a href="#" id="go-login">Log In</a></p>
+      </div>
+    </div>
+
+    <!-- C. Email OTP Verification Card -->
+    <div id="verify-card" class="auth-card glass-panel" style="display: none;">
+      <div class="auth-header-container">
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-envelope-open-text"></i></span>
+          <span class="logo-text">Verification</span>
+        </div>
+        <h2 class="auth-title">Verify Email</h2>
+        <p class="auth-subtitle">Enter the 6-digit OTP code printed to your server terminal console.</p>
+      </div>
+      
+      <form id="verify-form" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="verify-email">Email Address</label>
+          <input class="form-input" type="email" id="verify-email" placeholder="name@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="verify-code">6-Digit Code</label>
+          <input class="form-input" type="text" id="verify-code" maxlength="6" placeholder="000000" style="letter-spacing: 6px; text-align: center; font-size: 1.5rem;" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Verify Email</button>
+      </form>
+      <div class="auth-footer">
+        <p><a href="#" id="verify-back-login">Back to Login</a></p>
+      </div>
+    </div>
+
+    <!-- D. Forgot Password Recovery Request -->
+    <div id="forgot-card" class="auth-card glass-panel" style="display: none;">
+      <div class="auth-header-container">
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-key"></i></span>
+          <span class="logo-text">Recovery</span>
+        </div>
+        <h2 class="auth-title">Forgot Password</h2>
+        <p class="auth-subtitle">Submit email to receive a recovery code in your server console.</p>
+      </div>
+      
+      <form id="forgot-form" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="forgot-email">Account Email</label>
+          <input class="form-input" type="email" id="forgot-email" placeholder="registered-email@domain.com" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Code</button>
+      </form>
+      <div class="auth-footer">
+        <p><a href="#" id="forgot-back-login">Back to Login</a></p>
+      </div>
+    </div>
+
+    <!-- E. Reset Password Form -->
+    <div id="reset-card" class="auth-card glass-panel" style="display: none;">
+      <div class="auth-header-container">
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-lock-open"></i></span>
+          <span class="logo-text">Reset Password</span>
+        </div>
+        <h2 class="auth-title">New Credentials</h2>
+        <p class="auth-subtitle">Verify code and key in your new password.</p>
+      </div>
+      
+      <form id="reset-form" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="reset-email">Account Email</label>
+          <input class="form-input" type="email" id="reset-email" placeholder="name@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reset-code">Recovery Code (from console)</label>
+          <input class="form-input" type="text" id="reset-code" maxlength="6" placeholder="000000" style="letter-spacing: 4px; text-align: center;" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reset-password">New Password</label>
+          <input class="form-input" type="password" id="reset-password" placeholder="Min. 8 characters" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Reset Password</button>
+      </form>
+      <div class="auth-footer">
+        <p><a href="#" id="reset-back-login">Back to Login</a></p>
+      </div>
+    </div>
+
+    <!-- F. Two-Factor Authentication Input -->
+    <div id="twofa-card" class="auth-card glass-panel" style="display: none;">
+      <div class="auth-header-container">
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-shield-halved"></i></span>
+          <span class="logo-text">Security</span>
+        </div>
+        <h2 class="auth-title">2FA Challenge</h2>
+        <p class="auth-subtitle">Enter code from Google or Microsoft Authenticator app.</p>
+      </div>
+      
+      <form id="twofa-form" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="twofa-code">6-Digit Authenticator Code</label>
+          <input class="form-input" type="text" id="twofa-code" maxlength="6" placeholder="000000" style="letter-spacing: 6px; text-align: center; font-size: 1.5rem;" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Verify Code</button>
+      </form>
+      <div class="auth-footer">
+        <p><a href="#" id="twofa-back-login">Cancel and Log Out</a></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       MAIN APPLICATION LAYOUT
+       ========================================================================== -->
+  <div id="app-container" class="app-container" style="display: none;">
+    
+    <!-- 1. LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar glass-panel">
+      <div>
+        <div class="logo-container">
+          <span class="logo-icon"><i class="fa-solid fa-share-nodes"></i></span>
+          <span class="logo-text">MiniSocial</span>
+        </div>
+        
+        <nav class="nav-links">
+          <div class="nav-item active" data-target="feed-panel"><i class="fa-solid fa-house"></i> Home Feed</div>
+          <div class="nav-item" data-target="explore-panel"><i class="fa-solid fa-compass"></i> Explore AI</div>
+          <div class="nav-item" data-target="chat-panel"><i class="fa-solid fa-message"></i> Messages</div>
+          <div class="nav-item" data-target="notifications-panel" id="nav-notifs"><i class="fa-solid fa-bell"></i> Notifications <span class="nav-badge" id="notif-badge" style="display: none;">0</span></div>
+          <div class="nav-item" data-target="profile-panel" id="nav-profile-link"><i class="fa-solid fa-user"></i> Profile</div>
+          <div class="nav-item admin-link" data-target="admin-panel" id="nav-admin" style="display: none;"><i class="fa-solid fa-lock"></i> Admin Panel</div>
+        </nav>
+      </div>
+      
+      <div class="sidebar-footer">
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-container">
+          <span>Dark Mode</span>
+          <button class="theme-switch" id="theme-btn">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+        
+        <!-- User Info Widget -->
+        <div class="user-widget" id="user-widget-click">
+          <img src="/uploads/default-avatar.png" id="sidebar-user-avatar" class="user-widget-avatar" alt="Avatar">
+          <div class="user-widget-info">
+            <span class="user-widget-name" id="sidebar-user-name">Loading...</span>
+            <span class="user-widget-tag" id="sidebar-user-handle">@username</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. MAIN ACTIVE VIEW PANELS -->
+    <main class="main-content">
+      
+      <!-- HEADER BAR -->
+      <header class="header-bar glass-panel">
+        <h1 class="header-title" id="panel-title-text">Home Feed</h1>
+        <div class="header-actions">
+          <button class="btn btn-secondary" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+        </div>
+      </header>
+
+      <!-- PANELS WRAPPER -->
+      <div class="content-grid">
+        
+        <!-- Center Section Content Views -->
+        <div class="center-content">
+          
+          <!-- View 1: Feed Panel -->
+          <div id="feed-panel" class="app-panel">
+            <!-- Stories Row -->
+            <div class="stories-row-container glass-panel" id="stories-row-holder">
+              <!-- Dynamically populated story bubbles -->
+            </div>
+            
+            <!-- Create Post Card -->
+            <div class="create-post-card glass-panel">
+              <div class="create-post-row">
+                <img src="/uploads/default-avatar.png" class="create-post-avatar main-user-avatar" alt="Avatar">
+                <textarea class="create-post-textarea" id="post-content-input" placeholder="What's happening? Add interest tags to recommend posts!"></textarea>
+              </div>
+              
+              <!-- Selected image preview -->
+              <div class="create-post-preview-container" id="post-image-preview-container">
+                <img class="create-post-preview-img" id="post-image-preview" src="" alt="Post media">
+                <button class="create-post-preview-remove" id="post-image-preview-remove"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+              
+              <!-- AI suggested caption area -->
+              <div class="ai-suggested-banner" id="ai-caption-banner" style="display: none;">
+                <div class="ai-suggested-header"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Caption Suggestion</div>
+                <div id="ai-caption-text">Suggesting...</div>
+                <div style="display: flex; gap: 8px; margin-top: 4px;">
+                  <button class="btn btn-secondary" id="ai-caption-apply" style="padding: 4px 8px; font-size: 0.75rem;">Apply</button>
+                  <button class="btn btn-secondary" id="ai-caption-retry" style="padding: 4px 8px; font-size: 0.75rem;"><i class="fa-solid fa-rotate"></i> Retry</button>
+                </div>
+              </div>
+
+              <div class="create-post-footer">
+                <div class="create-post-tools">
+                  <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*">
+                  <button class="create-post-tool-btn" id="post-upload-trigger"><i class="fa-solid fa-cloud-arrow-up" style="color: var(--primary);"></i> Upload Media</button>
+                  <button class="create-post-tool-btn" id="post-image-trigger"><i class="fa-solid fa-image" style="color: var(--primary);"></i> Image URL</button>
+                  <button class="create-post-tool-btn" id="post-ai-caption-trigger"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent);"></i> Generate Caption</button>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <input class="create-post-tags-input" type="text" id="post-tags-input" placeholder="Tags: tech, fun">
+                  <button class="btn btn-secondary" id="post-ai-tag-trigger" style="padding: 6px 8px; font-size: 0.85rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Tags</button>
+                  <button class="btn btn-primary" id="submit-post-btn">Post</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Feed posts listings -->
+            <div id="feed-posts-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- View 2: Explore AI Panel -->
+          <div id="explore-panel" class="app-panel" style="display: none;">
+            <div class="glass-panel" style="padding: 16px 20px; margin-bottom: 20px;">
+              <p style="margin-bottom: 12px; font-size: 0.9rem; color: var(--text-secondary);"><i class="fa-solid fa-circle-info"></i> This explore feed is sorted by your profile's interest tags, post engagement, and content recency.</p>
+              <div class="tag-chips-row" id="explore-tags-container">
+                <div class="tag-chip active" data-tag="all">All Interests</div>
+                <div class="tag-chip" data-tag="tech">#tech</div>
+                <div class="tag-chip" data-tag="travel">#travel</div>
+                <div class="tag-chip" data-tag="food">#food</div>
+                <div class="tag-chip" data-tag="fitness">#fitness</div>
+              </div>
+            </div>
+            
+            <div id="explore-posts-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- View 3: Chat / DM Panel -->
+          <div id="chat-panel" class="app-panel" style="display: none;">
+            <div class="chat-grid">
+              
+              <!-- Chat User Directory -->
+              <div class="chat-sidebar glass-panel">
+                <div class="chat-search-container">
+                  <input type="text" class="chat-search-input" id="chat-user-search" placeholder="Search friends to chat...">
+                </div>
+                <div class="conversation-list" id="conversations-holder">
+                  <!-- Conversing users list -->
+                </div>
+              </div>
+              
+              <!-- Chat Messaging Box -->
+              <div class="chat-window glass-panel">
+                <div id="chat-window-placeholder" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: var(--text-muted);">
+                  <i class="fa-regular fa-comments" style="font-size: 3.5rem;"></i>
+                  <p>Select a user to start direct messaging.</p>
+                </div>
+                
+                <div id="chat-window-active" class="chat-window" style="display: none; height: 100%;">
+                  <div class="chat-window-header">
+                    <img src="/uploads/default-avatar.png" id="chat-header-avatar" class="chat-window-avatar" alt="Avatar">
+                    <div class="chat-window-info">
+                      <span class="chat-window-title" id="chat-header-name">Username</span>
+                      <span class="chat-window-status" id="chat-header-status">Offline</span>
+                    </div>
+                  </div>
+                  
+                  <div class="chat-messages-container" id="chat-messages-holder">
+                    <!-- Message Bubbles -->
+                  </div>
+                  
+                  <div class="chat-input-container">
+                    <input type="text" class="chat-input-field" id="chat-message-input" placeholder="Type a message...">
+                    <button class="chat-send-btn" id="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- View 4: Notifications List -->
+          <div id="notifications-panel" class="app-panel" style="display: none;">
+            <div class="notifications-panel glass-panel">
+              <div class="notifications-list" id="notifications-holder">
+                <!-- Notifications dynamically added -->
+              </div>
+            </div>
+          </div>
+
+          <!-- View 5: Personal / User Profile Panel -->
+          <div id="profile-panel" class="app-panel" style="display: none;">
+            <!-- Cover / Banner -->
+            <div class="profile-banner-container">
+              <img src="/uploads/default-cover.png" class="profile-cover-img" id="profile-cover-display" alt="Cover photo">
+              <button class="profile-cover-upload-btn" id="cover-upload-trigger"><i class="fa-solid fa-camera"></i> Change Cover</button>
+            </div>
+            
+            <!-- Meta row with avatar and details -->
+            <div class="profile-meta-row">
+              <div class="profile-avatar-wrapper">
+                <img src="/uploads/default-avatar.png" class="profile-avatar-img" id="profile-avatar-display" alt="Profile avatar">
+                <button class="profile-avatar-upload-btn" id="avatar-upload-trigger"><i class="fa-solid fa-camera"></i> Edit</button>
+              </div>
+              <div class="profile-info">
+                <div class="profile-names">
+                  <span class="profile-display-name" id="profile-display-username">Username</span>
+                  <span class="profile-username" id="profile-display-handle">@username</span>
+                </div>
+                <div class="profile-buttons">
+                  <button class="btn btn-secondary" id="profile-edit-trigger"><i class="fa-solid fa-pen"></i> Edit Profile</button>
+                  <button class="btn btn-primary" id="profile-follow-btn" style="display: none;">Follow</button>
+                  <button class="btn btn-secondary" id="profile-message-btn" style="display: none;"><i class="fa-regular fa-comment"></i> Message</button>
+                  <button class="btn btn-danger" id="profile-report-btn" style="display: none;"><i class="fa-solid fa-circle-exclamation"></i> Report</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Bio & Statistics -->
+            <div class="glass-panel" style="margin-top: 20px;">
+              <div class="profile-stats-card">
+                <div class="profile-stat-box">
+                  <span class="profile-stat-num" id="profile-stat-posts">0</span>
+                  <span class="profile-stat-label">Posts</span>
+                </div>
+                <div class="profile-stat-box">
+                  <span class="profile-stat-num" id="profile-stat-followers">0</span>
+                  <span class="profile-stat-label">Followers</span>
+                </div>
+                <div class="profile-stat-box">
+                  <span class="profile-stat-num" id="profile-stat-following">0</span>
+                  <span class="profile-stat-label">Following</span>
+                </div>
+              </div>
+              
+              <div class="profile-bio-box">
+                <h3 style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Bio</h3>
+                <p class="profile-bio-text" id="profile-bio-display">No bio written yet.</p>
+                
+                <h3 style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 12px;">Interests</h3>
+                <div class="post-tags-container" id="profile-tags-display">
+                  <!-- Tag Chips -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Story Highlights Row -->
+            <div class="glass-panel" style="margin-top: 20px; padding: 16px 20px;">
+              <h3 style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;"><i class="fa-regular fa-star"></i> Story Highlights</h3>
+              <div class="stories-row-container" id="profile-highlights-holder" style="padding: 0; margin: 0; border: none; box-shadow: none; backdrop-filter: none; background: transparent;">
+                <!-- Highlights bubbles go here -->
+              </div>
+            </div>
+
+            <!-- Profile Posts Feed -->
+            <h2 style="font-family: var(--font-display); font-size: 1.3rem; margin-top: 24px; margin-bottom: 16px;">Posts</h2>
+            <div id="profile-posts-list">
+              <!-- User posts -->
+            </div>
+          </div>
+
+          <!-- View 6: Admin Moderation panel -->
+          <div id="admin-panel" class="app-panel" style="display: none;">
+            
+            <!-- Statistics Grid -->
+            <div class="admin-stats-grid">
+              <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon-wrapper" style="background: var(--primary-glow); color: var(--primary);"><i class="fa-solid fa-users"></i></div>
+                <div class="admin-stat-info">
+                  <span class="admin-stat-value" id="admin-stats-users">0</span>
+                  <span class="admin-stat-label">Total Users</span>
+                </div>
+              </div>
+              <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon-wrapper" style="background: var(--accent-glow); color: var(--accent);"><i class="fa-solid fa-file-invoice"></i></div>
+                <div class="admin-stat-info">
+                  <span class="admin-stat-value" id="admin-stats-posts">0</span>
+                  <span class="admin-stat-label">Total Posts</span>
+                </div>
+              </div>
+              <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon-wrapper" style="background: var(--success-glow); color: var(--success);"><i class="fa-solid fa-comments"></i></div>
+                <div class="admin-stat-info">
+                  <span class="admin-stat-value" id="admin-stats-comments">0</span>
+                  <span class="admin-stat-label">Comments</span>
+                </div>
+              </div>
+              <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon-wrapper" style="background: var(--danger-glow); color: var(--danger);"><i class="fa-solid fa-circle-exclamation"></i></div>
+                <div class="admin-stat-info">
+                  <span class="admin-stat-value" id="admin-stats-reports">0</span>
+                  <span class="admin-stat-label">Active Reports</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG Data Visualizer -->
+            <div class="admin-chart-card glass-panel">
+              <div class="widget-title"><i class="fa-solid fa-chart-simple"></i> System Activity Overview</div>
+              <svg class="admin-chart-svg" id="admin-chart" viewBox="0 0 400 200">
+                <!-- SVG Bars rendering dynamically -->
+                <line x1="40" y1="20" x2="40" y2="170" stroke="var(--text-muted)" stroke-width="1"/>
+                <line x1="40" y1="170" x2="380" y2="170" stroke="var(--text-muted)" stroke-width="1"/>
+                <text x="18" y="100" fill="var(--text-muted)" font-size="10" transform="rotate(-90 18 100)">Quantity</text>
+                <!-- SVG chart rects and labels will go here -->
+              </svg>
+            </div>
+
+            <!-- Content moderation reports table list -->
+            <div class="reports-table-card glass-panel">
+              <div class="widget-title"><i class="fa-solid fa-triangle-exclamation"></i> Content Moderation Reports</div>
+              <div class="reports-list" id="admin-reports-holder">
+                <!-- Dynamically generated list -->
+              </div>
+            </div>
+            
+          </div>
+
+        </div>
+
+        <!-- Right Sidebar (Friend suggestions & mini profile) -->
+        <div class="right-sidebar">
+          
+          <!-- Mini user card -->
+          <div class="widget-card glass-panel" id="mini-profile-widget">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;">
+              <img src="/uploads/default-avatar.png" id="right-user-avatar" style="width: 70px; height: 70px; border-radius: var(--radius-full); border: 2.5px solid var(--primary); object-fit: cover;" alt="Avatar">
+              <div>
+                <h3 id="right-user-name" style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;">Username</h3>
+                <p id="right-user-handle" style="font-size: 0.8rem; color: var(--text-muted);">@handle</p>
+              </div>
+              <button class="btn btn-secondary" id="right-go-profile-btn" style="width: 100%; font-size: 0.8rem; padding: 8px 0;"><i class="fa-regular fa-user"></i> View Profile</button>
+            </div>
+          </div>
+
+          <!-- Smart Suggestions Widget -->
+          <div class="widget-card glass-panel">
+            <div class="widget-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent);"></i> Smart Follow Suggs</div>
+            <div class="suggestion-list" id="suggestions-holder">
+              <!-- Dynamically populated friend suggestions -->
+            </div>
+          </div>
+
+          <!-- Trending AI Hashtags Widget -->
+          <div class="widget-card glass-panel">
+            <div class="widget-title"><i class="fa-solid fa-arrow-trend-up" style="color: var(--accent);"></i> Trending AI Hashtags</div>
+            <div class="tag-chips-row" id="trending-tags-holder" style="gap: 6px; padding-top: 8px;">
+              <!-- Trending tags dynamically added -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ==========================================================================
+       MODALS CONTAINER
+       ========================================================================== -->
+  <div class="modal-overlay" id="global-modal">
+    
+    <!-- Modal 1: Edit Profile details -->
+    <div class="modal-card glass-panel" id="modal-edit-profile" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Profile</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="edit-bio">Short Biography</label>
+          <textarea class="form-input" id="edit-bio" rows="3" placeholder="Tell the community about yourself..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-tags">Interest Tags (comma separated)</label>
+          <input class="form-input" type="text" id="edit-tags" placeholder="e.g. travel, food, gaming">
+        </div>
+        
+        <!-- 2FA settings toggles -->
+        <div class="form-group" style="padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+          <div>
+            <label class="form-label" style="display: block;">Two-Factor Auth (2FA)</label>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Enable 2FA for extra login security.</span>
+          </div>
+          <button class="btn btn-secondary" id="modal-2fa-toggle-btn" style="padding: 6px 12px; font-size: 0.8rem;">Setup 2FA</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- Modal 2: 2FA Setup/QR Scan -->
+    <div class="modal-card glass-panel" id="modal-2fa-setup" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title">Setup 2FA</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <div id="qr-setup-view">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">Scan this QR code with Google Authenticator or Microsoft Authenticator app:</p>
+          <div class="qr-code-wrapper">
+            <img src="" id="qr-code-img" alt="QR Code">
+            <div class="qr-secret-key" id="qr-secret-text">SECRETKEY</div>
+          </div>
+          <div class="form-group" style="margin-top: 16px; text-align: left;">
+            <label class="form-label" for="verify-2fa-setup-code">Confirm code from authenticator app</label>
+            <input class="form-input" type="text" id="verify-2fa-setup-code" placeholder="000000" maxlength="6" style="letter-spacing: 4px; text-align: center;">
+          </div>
+        </div>
+        
+        <div id="qr-disable-view" style="display: none;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px;">Are you sure you want to disable Two-Factor Authentication?</p>
+          <div class="form-group" style="text-align: left;">
+            <label class="form-label" for="disable-2fa-code">Enter current authenticator code to confirm</label>
+            <input class="form-input" type="text" id="disable-2fa-code" placeholder="000000" maxlength="6" style="letter-spacing: 4px; text-align: center;">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-primary" id="confirm-2fa-btn">Verify and Enable</button>
+      </div>
+    </div>
+
+    <!-- Modal 3: Edit Post content -->
+    <div class="modal-card glass-panel" id="modal-edit-post" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Post</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="edit-post-content">Post Content</label>
+          <textarea class="form-input" id="edit-post-content" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-post-image">Image URL (optional)</label>
+          <input class="form-input" type="text" id="edit-post-image">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-post-tags">Tags (comma separated)</label>
+          <input class="form-input" type="text" id="edit-post-tags">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-primary" id="save-post-btn">Update Post</button>
+      </div>
+    </div>
+
+    <!-- Modal 4: Report Content Reason selection -->
+    <div class="modal-card glass-panel" id="modal-report-reason" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title">Report Content</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="report-reason-select">Reason for Report</label>
+          <select class="form-input" id="report-reason-select" style="background: rgba(255,255,255,0.05); color: inherit;">
+            <option value="Spam or misleading">Spam or misleading</option>
+            <option value="Hate speech or harassment">Hate speech or harassment</option>
+            <option value="Inappropriate content">Inappropriate content / Nudity</option>
+            <option value="Violence or self-harm">Violence or self-harm</option>
+            <option value="Intellectual property violation">Intellectual property violation</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-danger" id="submit-report-btn">Submit Report</button>
+      </div>
+    </div>
+
+    <!-- Modal 5: Dynamic Media Link input helper -->
+    <div class="modal-card glass-panel" id="modal-image-link" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title">Add Image URL</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="post-image-url-input">Direct Image Link (e.g. JPG, PNG, GIF)</label>
+          <input class="form-input" type="text" id="post-image-url-input" placeholder="https://images.unsplash.com/photo-1234...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-primary" id="save-image-link-btn">Add Image</button>
+      </div>
+    </div>
+
+    <!-- Modal 6: File Upload modal (Profile pic & Cover pic) -->
+    <div class="modal-card glass-panel" id="modal-file-upload" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="file-upload-title">Upload Image</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="file-upload-form" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="form-label" for="file-upload-input">Choose Image File (JPG/PNG/GIF, max 5MB)</label>
+            <input class="form-input" type="file" id="file-upload-input" name="image" accept="image/*" required>
+          </div>
+          <!-- Hidden inputs for custom identifiers -->
+          <input type="hidden" id="file-upload-type" name="type">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-primary" id="submit-upload-btn">Upload</button>
+      </div>
+    </div>
+
+    <!-- Modal 7: Followers / Following List -->
+    <div class="modal-card glass-panel" id="modal-follow-list" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="follow-list-title">Followers</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="suggestion-list" id="follow-list-holder" style="max-height: 300px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 12px;">
+          <!-- Followers/Following list goes here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 8: Create Highlight collection -->
+    <div class="modal-card glass-panel" id="modal-create-highlight" style="display: none;">
+      <div class="modal-header">
+        <h2 class="modal-title">Create Highlight</h2>
+        <button class="modal-close-btn close-modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="highlight-title-input">Highlight Title</label>
+          <input class="form-input" type="text" id="highlight-title-input" placeholder="e.g. Vacation, Food" required>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px;">Select active stories to add to this highlight:</p>
+        <div id="highlight-stories-selector" style="display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; border: 1px solid var(--border-color); border-radius: var(--radius-sm); max-height: 120px;">
+          <!-- Active stories thumbnails will display here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal-trigger">Cancel</button>
+        <button class="btn btn-primary" id="save-highlight-btn">Create Highlight</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Story Viewer Full-Screen Modal -->
+  <div class="modal-overlay" id="story-viewer-modal" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); display: none;">
+    <div class="story-viewer-card" id="story-viewer-card">
+      
+      <!-- Top Segments Progress Bar -->
+      <div class="story-progress-bar" id="story-progress-container">
+        <!-- Multiple segment divs will go here -->
+      </div>
+      
+      <!-- Top user header -->
+      <div class="story-viewer-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="/uploads/default-avatar.png" id="story-user-avatar" class="story-viewer-avatar" alt="Avatar">
+          <div>
+            <div id="story-user-name" class="story-viewer-username">Username</div>
+            <div id="story-time-stamp" class="story-viewer-time">2 hours ago</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="story-header-btn" id="story-highlight-btn" title="Save to Highlights" style="display: none;"><i class="fa-regular fa-star"></i> Pin</button>
+          <button class="story-header-btn" id="story-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      
+      <!-- Media Content box (Image/Video) -->
+      <div class="story-viewer-media-box">
+        <!-- Next/Prev Click zones -->
+        <div class="story-click-zone left" id="story-prev-zone"></div>
+        <div class="story-click-zone right" id="story-next-zone"></div>
+        
+        <img src="" id="story-img-display" class="story-content-media" style="display: none;" alt="Story Image">
+        <video src="" id="story-video-display" class="story-content-media" style="display: none;" autoplay playsinline></video>
+      </div>
+      
+      <!-- Bottom Views Counter -->
+      <div class="story-viewer-footer" id="story-viewer-footer">
+        <span id="story-view-count-label"><i class="fa-regular fa-eye"></i> <span id="story-views-num">0</span> views</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST BANNERS LIST CONTAINER -->
+  <div class="toast-container" id="toast-holder"></div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT MODULES
+       ========================================================================== -->
+  <!-- Socket.IO library served by the backend -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Frontend socket handling logic -->
+  <script src="/js/socket.js"></script>
+  <!-- Main Application Logic -->
+  <script src="/js/app.js"></script>
+</body>
+</html>
